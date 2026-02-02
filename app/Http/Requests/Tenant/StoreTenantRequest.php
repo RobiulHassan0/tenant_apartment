@@ -3,6 +3,8 @@
 namespace App\Http\Requests\Tenant;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreTenantRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class StoreTenantRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +24,39 @@ class StoreTenantRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string', 'max: 100'],
+            'phone' => ['required', 'unique:tenants,phone'],
+            'image' => ['nullable', 'file', 'mimes:jpg,jpeg,png,gif,webp', 'max: 2048']
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            // Name field messages
+            'name.required' => 'Please enter the tenant name.',
+            'name.string' => 'The name must be a valid text string.',
+            'name.max' => 'The name may not be longer than 100 characters.',
+
+            // Phone field messages
+            'phone.required' => 'The phone number is required.',
+            'phone.unique' => 'This phone number is already registered with another tenant.',
+
+            // Image field messages
+            'image.file' => 'The uploaded file must be an image.',
+            'image.mimes' => 'The image must be in jpg, jpeg, png, gif, or webp format.',
+            'image.max' => 'The image size may not exceed 2MB.',
+        ];
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'message' => 'Validation Failed',
+                'errors' => $validator->errors()
+            ], 422)
+        );
+    }
+
 }

@@ -34,7 +34,7 @@ class ApartmentController extends Controller
 
                 return response()->json([
                     'message' => 'Apartment created successfully',
-                    'apartment-data' => $apartment
+                    'apartments-data' => $apartment
                 ], 201);
             }
         }catch(Exception $e){
