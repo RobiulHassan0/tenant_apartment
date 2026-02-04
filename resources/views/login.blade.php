@@ -155,7 +155,7 @@
         console.log(response.data);
 
         alert(response.data.message || 'Login Successfull');
-        window.location.href = isAdminMode ? "api/v1/admin/dashboard" : "api/v1/tenant/dashboard";
+        window.location.href = isAdminMode ? "/dashboard" : "/tenant/dashboard";
 
       } catch (err) {
         if (err.response && err.response.data.errors) {
@@ -183,24 +183,25 @@
       }
     }
   
-    getDashboard();
-    async function getDashboard(){
-      const token = localStorage.getItem('admin-token');
-      try {
-        const response = await axios.get('api/v1/admin/dashboard', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Accept': 'application/json' 
-          }
-        });
+    // getDashboard();
+    // async function getDashboard(){
+    //   const token = localStorage.getItem('admin-token');
+    //   try {
+    //     const response = await axios.get('dashboard', {
+    //       headers: {
+    //         Authorization: `Bearer ${token}`,
+    //         'Accept': 'application/json' 
+    //       }
+    //     });
 
-        console.log(response.data);
-      } catch (error) {
-        if(error.response.status === 401){
-          window.location = '/login'
-        }
-      }
-    }
+    //     console.log(response.data);
+    //   } catch (error) {
+    //     if(error.response.status === 401){
+    //       window.location = '/login'
+    //     }
+    //   }
+    // }
+  
   </script>
 
 </body>
