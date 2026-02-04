@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Apartment\ApartmentResource;
 use App\Http\Resources\Booking\BookingResource;
+use App\Http\Resources\Tenant\TenantCollection;
 use App\Models\Apartment;
 use App\Models\Booking;
 use App\Models\Tenant;
@@ -49,6 +50,16 @@ class DashboardController extends Controller
             //     Apartment::whereDoesntHave('currentBooking')->get()
             // )
         ]);
+    }
+
+        public function allTenants()
+    {
+        $tenants = Tenant::all();
+
+        return response()->json([
+            'message' => 'Tenant retrived successfully',
+            'tenants-data' => new TenantCollection($tenants)
+        ], 201);
     }
 
 }

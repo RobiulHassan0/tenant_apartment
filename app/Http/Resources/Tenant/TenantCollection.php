@@ -15,7 +15,7 @@ class TenantCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
-            'data' => TenantResource::collection($this->collection)
+            'all-tenants' => TenantResource::collection($this->collection)
         ];
     }
 }

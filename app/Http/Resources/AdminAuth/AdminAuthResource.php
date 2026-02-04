@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Tenant;
+namespace App\Http\Resources\AdminAuth;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TenantResource extends JsonResource
+class AdminAuthResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,8 +17,8 @@ class TenantResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'phone' => $this->phone,
-            'image' => $this->image?asset('/storage', $this->image):null,
+            'email' => $this->email,
+            'image' => $this->image,
         ];
     }
 }

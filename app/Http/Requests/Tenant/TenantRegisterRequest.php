@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StoreTenantRequest extends FormRequest
+class TenantRegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,6 +26,7 @@ class StoreTenantRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max: 100'],
             'phone' => ['required', 'unique:tenants,phone'],
+            'password' => ['required', 'string', 'min:8'],
             'image' => ['nullable', 'file', 'mimes:jpg,jpeg,png,gif,webp', 'max: 2048']
         ];
     }
@@ -49,7 +50,7 @@ class StoreTenantRequest extends FormRequest
         ];
     }
 
-    public function failedValidation(Validator $validator)
+    public function failedValidation(Validator $validator): void
     {
         throw new HttpResponseException(
             response()->json([
@@ -58,5 +59,4 @@ class StoreTenantRequest extends FormRequest
             ], 422)
         );
     }
-
 }
